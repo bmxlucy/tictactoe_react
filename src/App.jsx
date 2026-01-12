@@ -15,8 +15,8 @@ import GameOver from './components/GameOver.jsx';
 
 // Константа с начальными именами игроков
 // Используется: 
-// 1. Для инициализации state players (строка 102)
-// 2. Для передачи initialName в компонент Player (строки 144, 150)
+// 1. Для инициализации state players (строка 180)
+// 2. Для передачи initialName в компонент Player (строки 296, 302)
 const PLAYERS = {
   X: 'Player 1',
   O: 'Player 2'
@@ -24,7 +24,7 @@ const PLAYERS = {
 
 // Константа с начальным состоянием игрового поля (пустая доска 3x3)
 // null означает, что клетка не занята
-// Используется в функции deriveGameBoard (строка 90) для создания копии доски
+// Используется в функции deriveGameBoard (строка 155) для создания копии доски
 const INITIAL_GAME_BOARD = [
   [null, null, null],
   [null, null, null],
@@ -33,7 +33,7 @@ const INITIAL_GAME_BOARD = [
 
 // Массив всех возможных выигрышных комбинаций в крестики-нолики
 // Включает: 3 горизонтали, 3 вертикали, 2 диагонали
-// Используется в функции deriveWinner (строка 64) для проверки победителя
+// Используется в функции deriveWinner (строка 99) для проверки победителя
 const WINNING_COMBINATIONS = [
   // Первая горизонталь (верхняя строка)
   [
@@ -87,9 +87,9 @@ const WINNING_COMBINATIONS = [
 
 // Функция для определения победителя игры
 // Параметры:
-// - gameBoard: текущее состояние игрового поля (приходит из deriveGameBoard, строка 106)
-// - players: объект с именами игроков (приходит из state players, строка 107)
-// Вызывается: в компоненте App на строке 107
+// - gameBoard: текущее состояние игрового поля (вычисленное deriveGameBoard, строка 200)
+// - players: объект с именами игроков (state players, строка 180)
+// Вызывается: в компоненте App на строке 204
 // Возвращает: имя победителя или undefined, если победителя нет
 function deriveWinner(gameBoard, players) {
   // Переменная для хранения имени победителя
@@ -124,17 +124,17 @@ function deriveWinner(gameBoard, players) {
 
 // Функция для определения активного игрока (чья сейчас очередь ходить)
 // Параметр:
-// - gameTurns: массив всех сделанных ходов (приходит из state gameTurns)
+// - gameTurns: массив всех сделанных ходов (state gameTurns)
 // Вызывается: 
-// 1. В компоненте App на строке 135 для определения activePlayer
-// 2. Внутри handleSelectSquare на строке 146 для определения текущего игрока
+// 1. В компоненте App на строке 196 для определения activePlayer
+// 2. Внутри handleSelectSquare на строке 230 для определения текущего игрока
 // Возвращает: 'X' или 'O' - символ игрока, который должен ходить
 function deriveActivePlayer(gameTurns) {
 
   // По умолчанию первым ходит игрок X
   let currentPlayer = 'X';
   // Проверяем, есть ли уже сделанные ходы И последний ход (gameTurns[0]) был сделан игроком X
-  // gameTurns[0] - это последний ход, т.к. новые ходы добавляются в начало массива (строка 149)
+  // gameTurns[0] - это последний ход, т.к. новые ходы добавляются в начало массива (строка 236)
   // Если последний ход был X, значит теперь ходит O
   if(gameTurns.length > 0 && gameTurns[0].player === 'X') {
     currentPlayer = 'O';
@@ -145,8 +145,8 @@ function deriveActivePlayer(gameTurns) {
 
 // Функция для вычисления текущего состояния игрового поля на основе истории ходов
 // Параметр:
-// - gameTurns: массив всех сделанных ходов (приходит из state gameTurns, строка 136)
-// Вызывается: в компоненте App на строке 136
+// - gameTurns: массив всех сделанных ходов (state gameTurns, строка 191)
+// Вызывается: в компоненте App на строке 200
 // Возвращает: двумерный массив 3x3 с текущим состоянием игрового поля
 function deriveGameBoard(gameTurns) {
   // Создаем глубокую копию начального пустого поля
@@ -172,48 +172,48 @@ function deriveGameBoard(gameTurns) {
 // Главный компонент приложения - игра в крестики-нолики
 function App() {
   // State: объект с именами игроков {X: 'Player 1', O: 'Player 2'}
-  // Инициализируется константой PLAYERS (строка 13)
-  // Изменяется: функцией handlePlayerNameChange (строка 160)
+  // Инициализируется константой PLAYERS (строка 20)
+  // Изменяется: функцией handlePlayerNameChange (строка 261)
   // Используется: 
-  // 1. В функции deriveWinner для получения имени победителя (строка 107)
-  // 2. Для передачи в компонент GameOver через prop winner (строка 186)
+  // 1. В функции deriveWinner для получения имени победителя (строка 204)
+  // 2. Для передачи в компонент GameOver через prop winner (строка 308)
   const [players, setPlayers] = useState(PLAYERS);
   // State: массив всех сделанных ходов игры
   // Каждый элемент: {square: {row: number, col: number}, player: 'X' | 'O'}
   // Инициализируется: пустым массивом (начало игры)
   // Изменяется: 
-  // 1. Функцией handleSelectSquare при клике на клетку поля (строка 145)
-  // 2. Функцией handleRestart при перезапуске игры (строка 157)
+  // 1. Функцией handleSelectSquare при клике на клетку поля (строка 217)
+  // 2. Функцией handleRestart при перезапуске игры (строка 248)
   // Используется:
-  // 1. Для вычисления activePlayer (строка 135)
-  // 2. Для вычисления gameBoard (строка 136)
-  // 3. Передается в компонент Log как prop turns (строка 190)
+  // 1. Для вычисления activePlayer (строка 196)
+  // 2. Для вычисления gameBoard (строка 200)
+  // 3. Передается в компонент Log как prop turns (строка 315)
   const [gameTurns, setGameTurns] = useState([]);
 
 // Derived state: вычисляем активного игрока на основе истории ходов
-// Используется функция deriveActivePlayer (строка 103)
-// Передается в компонент Player как prop isActive (строки 176, 182)
+// Используется функция deriveActivePlayer (строка 132)
+// Передается в компонент Player как prop isActive (строки 298, 304)
 const activePlayer = deriveActivePlayer(gameTurns);
 // Derived state: вычисляем текущее состояние игрового поля на основе истории ходов
-// Используется функция deriveGameBoard (строка 118)
-// Передается в компонент GameBoard как prop board (строка 187)
+// Используется функция deriveGameBoard (строка 151)
+// Передается в компонент GameBoard как prop board (строка 311)
 const gameBoard = deriveGameBoard(gameTurns);
 // Derived state: определяем победителя игры
-// Используется функция deriveWinner (строка 61)
-// Передается в компонент GameOver как prop winner (строка 186)
+// Используется функция deriveWinner (строка 94)
+// Передается в компонент GameOver как prop winner (строка 308)
 const winner = deriveWinner(gameBoard, players);
 // Derived state: проверяем, закончилась ли игра ничьей
 // Ничья = все 9 клеток заполнены (gameTurns.length === 9) И нет победителя
-// Используется: для отображения GameOver (строка 186) и блокировки поля (строка 187)
+// Используется: для отображения GameOver (строка 308) и блокировки поля (строка 312)
 const hasDraw = gameTurns.length === 9 && !winner;
 
   // Функция-обработчик клика по клетке игрового поля
   // Параметры:
   // - rowIndex: индекс строки (0-2) кликнутой клетки
   // - colIndex: индекс столбца (0-2) кликнутой клетки
-  // ОБЪЯВЛЕНА: здесь, в компоненте App (строка 140)
-  // ПЕРЕДАЕТСЯ: в компонент GameBoard как prop onSelectSquare (строка 187)
-  // ВЫЗЫВАЕТСЯ: в компоненте GameBoard при клике на button (файл GameBoard.jsx, строка 22)
+  // ОБЪЯВЛЕНА: здесь, в компоненте App (строка 217)
+  // ПЕРЕДАЕТСЯ: в компонент GameBoard как prop onSelectSquare (строка 310)
+  // ВЫЗЫВАЕТСЯ: в компоненте GameBoard при клике на button (файл GameBoard.jsx, строка 37)
   function handleSelectSquare(rowIndex, colIndex) {
     // Проверяем, не закончилась ли игра (есть победитель или ничья)
     // Если игра закончена, прерываем выполнение функции - ходы больше невозможны
@@ -242,9 +242,9 @@ const hasDraw = gameTurns.length === 9 && !winner;
   }
 
   // Функция для перезапуска игры (начать новую партию)
-  // ОБЪЯВЛЕНА: здесь, в компоненте App (строка 177)
-  // ПЕРЕДАЕТСЯ: в компонент GameOver как prop onRestart (строка 186)
-  // ВЫЗЫВАЕТСЯ: в компоненте GameOver при клике на кнопку "Rematch!" (файл GameOver.jsx, строка 6)
+  // ОБЪЯВЛЕНА: здесь, в компоненте App (строка 248)
+  // ПЕРЕДАЕТСЯ: в компонент GameOver как prop onRestart (строка 308)
+  // ВЫЗЫВАЕТСЯ: в компоненте GameOver при клике на кнопку "Rematch!" (файл GameOver.jsx, строка 15)
   function handleRestart() {
     // Очищаем массив ходов - возвращаем игру к начальному состоянию
     // Это автоматически обнуляет gameBoard, activePlayer, winner и hasDraw
@@ -255,9 +255,9 @@ const hasDraw = gameTurns.length === 9 && !winner;
   // Параметры:
   // - symbol: символ игрока ('X' или 'O')
   // - newName: новое имя игрока (строка)
-  // ОБЪЯВЛЕНА: здесь, в компоненте App (строка 180)
-  // ПЕРЕДАЕТСЯ: в оба компонента Player как prop onChangeName (строки 177, 183)
-  // ВЫЗЫВАЕТСЯ: в компоненте Player при клике "Save" (файл Player.jsx, строка 10)
+  // ОБЪЯВЛЕНА: здесь, в компоненте App (строка 261)
+  // ПЕРЕДАЕТСЯ: в оба компонента Player как prop onChangeName (строки 299, 305)
+  // ВЫЗЫВАЕТСЯ: в компоненте Player при клике "Save" (файл Player.jsx, строка 41)
   function handlePlayerNameChange(symbol, newName) {
     // Паттерн: functional state update
     // Обновляем state players на основе предыдущего значения
@@ -274,20 +274,20 @@ const hasDraw = gameTurns.length === 9 && !winner;
 
   // Список игроков - упорядоченный список (ol) для отображения двух игроков
   // Компонент Player для игрока X:
-  // - initialName: начальное имя из PLAYERS.X ('Player 1'), объявлен в Player.jsx строка 7, используется для state playerName
-  // - symbol: символ игрока 'X', объявлен в Player.jsx строка 7, используется для отображения и как параметр onChangeName
-  // - isActive: activePlayer === 'X', объявлен в Player.jsx строка 7, используется для класса 'active'
-  // - onChangeName: функция handlePlayerNameChange (строка 250), вызывается в Player.jsx при сохранении имени
+  // - initialName: начальное имя из PLAYERS.X ('Player 1'), объявлен в Player.jsx строка 10, используется для state playerName
+  // - symbol: символ игрока 'X', объявлен в Player.jsx строка 10, используется для отображения и как параметр onChangeName
+  // - isActive: activePlayer === 'X', объявлен в Player.jsx строка 10, используется для класса 'active'
+  // - onChangeName: функция handlePlayerNameChange (строка 261), вызывается в Player.jsx при сохранении имени
   // Компонент Player для игрока O - аналогичная структура с символом 'O' и именем PLAYERS.O
   // Условный рендеринг GameOver: показывается только если winner || hasDraw (есть победитель или ничья)
-  // - winner: имя победителя или undefined, объявлен в GameOver.jsx строка 7, вычисляется на строке 167
-  // - onRestart: функция handleRestart (строка 237), вызывается при клике "Rematch!"
+  // - winner: имя победителя или undefined, объявлен в GameOver.jsx строка 7, вычисляется на строке 204
+  // - onRestart: функция handleRestart (строка 248), вызывается при клике "Rematch!"
   // Компонент GameBoard - игровое поле 3x3:
-  // - onSelectSquare: функция handleSelectSquare (строка 200), вызывается при клике на клетку
-  // - board: двумерный массив gameBoard (строка 166), используется для отрисовки клеток
+  // - onSelectSquare: функция handleSelectSquare (строка 217), вызывается при клике на клетку
+  // - board: двумерный массив gameBoard (строка 200), используется для отрисовки клеток
   // - disabled: winner || hasDraw, блокирует клики когда игра закончена
   // Компонент Log - история ходов:
-  // - turns: массив gameTurns (строка 163), используется для отображения списка ходов
+  // - turns: массив gameTurns (строка 191), используется для отображения списка ходов
   return (
     <main>
       <div id="game-container">

@@ -2,11 +2,11 @@
 // Компонент GameBoard - отрисовывает игровое поле 3x3 с кнопками для ходов
 // Props:
 // - onSelectSquare: callback-функция, вызываемая при клике на клетку
-//   Передается из App.jsx, строка 240 (функция handleSelectSquare из App.jsx, строка 140)
+//   Передается из App.jsx, строка 310 (функция handleSelectSquare из App.jsx, строка 217)
 // - board: двумерный массив 3x3 с текущим состоянием поля (null, 'X' или 'O' в каждой клетке)
-//   Передается из App.jsx, строка 240 (вычисляется функцией deriveGameBoard, строка 136)
+//   Передается из App.jsx, строка 311 (вычисляется функцией deriveGameBoard, строка 151, вызывается на строке 200)
 // - disabled: булево значение, заблокировано ли поле (игра закончена)
-//   Передается из App.jsx, строка 240 (winner || hasDraw)
+//   Передается из App.jsx, строка 312 (winner || hasDraw)
 export default function GameBoard({onSelectSquare, board, disabled}) {
  
 

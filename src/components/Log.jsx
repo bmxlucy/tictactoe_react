@@ -1,7 +1,7 @@
 // Компонент Log - отображает историю ходов игры
 // Props:
 // - turns: массив всех сделанных ходов
-//   Передается из App.jsx, строка 248 (state gameTurns из App.jsx, строка 133)
+//   Передается из App.jsx, строка 315 (state gameTurns из App.jsx, строка 191)
 //   Каждый элемент массива имеет структуру: {square: {row: number, col: number}, player: 'X' | 'O'}
 export default function Log({turns}) {
   // Паттерн: Array.map для рендеринга списка ходов
